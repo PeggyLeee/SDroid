@@ -1,0 +1,11 @@
+body{background:#336666}.header{${t:boxShadow('0 1px 0 #333333') };
+
+.content-header h1 #conHeader {
+		color: #555555;
+		font-size: 28px;
+		font-weight: normal;
+		text-shadow: 0 1px 0 #ffffff;
+		margin-left: 20px;
+		margin-top: 20px;	
+	
+}

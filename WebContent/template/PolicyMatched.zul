@@ -1,0 +1,115 @@
+<vlayout apply="org.zkoss.bind.BindComposer" style="padding: 20px"
+	viewModel="@id('PMvm') @init('viewmodel.PolicyMatchedViewModel')">
+	<hbox>
+		<groupbox width="400px">
+			<caption label="新增Android應用程式" />
+			請輸入Package name：
+			<textbox id="txtPkName" width="150px" />
+			<button image="/img/blue_upload.png" onClick="@command('searchAPKInfo',mStr=txtPkName.value)" />
+		</groupbox>
+	</hbox>
+	<separator spacing="5px" />
+	<hlayout spacing="0" height="550px">
+		<listbox model="@load(PMvm.policyMatcheds)" selectedItem="@bind(PMvm.policyMatched)"
+			onSelect="@command('selected')" emptyMessage="No PolicyMatched found."
+			mold="paging" pageSize="12" width="400px">
+			<auxhead>
+				<auxheader colspan="3" class="topic">
+					Application 政策比對清單
+				</auxheader>
+			</auxhead>
+			<listhead>
+				<listheader label="Application" width="45%" align="center" />
+				<listheader label="Version" width="15%" align="center" />
+				<listheader label="DateTime" width="20%" align="center" />
+			</listhead>
+			<template name="model" var="pm">
+				<listitem>
+					<listcell label="@load(pm.app.appLabel)" />
+					<listcell label="@load(pm.app.version)" />
+					<listcell
+						label="@load(pm.createTime) @converter('formatedDate', format='yyyy-MM-dd')" />
+				</listitem>
+			</template>
+		</listbox>
+		<vlayout style="padding-left: 10px">
+			<!-- Application -->
+			<panel title="Application 詳細資訊" border="normal" width="800px">
+				<panelchildren>
+					<hlayout>
+						<vlayout>
+							<!-- 分析結果 -->
+							<hbox>
+								<label value="Analysis Result:" style="font-weight:bolder;" />
+								<label id="result" />
+							</hbox>
+							<hbox>
+								<label value="Application:" style="font-weight:bolder;" />
+								<label id="appLabel" />
+							</hbox>
+							<hbox>
+								<label value="Package Name:" style="font-weight:bolder;" />
+								<label id="pkName" />
+							</hbox>
+							<hbox>
+								<label value="Version:" style="font-weight:bolder;" />
+								<label id="version" />
+							</hbox>
+							<hbox>
+								<label value="File Size:" style="font-weight:bolder;" />
+								<label id="size" />
+							</hbox>
+						</vlayout>
+						<separator spacing="10px" />
+						<vlayout>
+							<hbox>
+								<label />
+								<label />
+							</hbox>
+							<hbox>
+								<label value="Creator:" style="font-weight:bolder;" />
+								<label id="creator" />
+							</hbox>
+							<hbox>
+								<label value="Contact email:" style="font-weight:bolder;" />
+								<label id="cEmail" />
+							</hbox>
+							<hbox>
+								<label value="Contact website:" style="font-weight:bolder;" />
+								<label id="website" />
+							</hbox>
+						</vlayout>
+					</hlayout>
+				</panelchildren>
+			</panel>
+			<separator spacing="5px" />
+			<!-- Policy 清單 -->
+			<listbox model="@load(PMvm.installTimePolicies)" width="800px"
+				emptyMessage="No policies found." mold="paging" pageSize="6">
+				<auxhead>
+					<auxheader colspan="5" iconSclass="icon-Posts">
+						Install-Time 安全政策清單
+					</auxheader>
+				</auxhead>
+				<listhead>
+					<listheader label="Access" width="10%" align="center" />
+					<listheader label="Application" width="20%" align="center" />
+					<listheader label="Permission" width="40%" align="center" />
+					<listheader label="Other conditions" width="20%" align="center" />
+					<listheader label="Result" width="10%" align="center" />
+				</listhead>
+				<template name="model" var="policy">
+					<listitem>
+						<listcell label="@load(policy.access)" />
+						<listcell label="@load(policy.application)" />
+						<listcell label="@load(policy.permission)" />
+						<listcell label="@load(policy.conditionStr)" />
+						<listcell label="@load(policy.result)"
+							style="@load(policy.result eq 'success'? 'color:blue':'color:red' )" />
+					</listitem>
+				</template>
+			</listbox>
+		</vlayout>
+	</hlayout>
+</vlayout>
+
