@@ -1,0 +1,134 @@
+
+<tabbox height="600px" style="padding: 20px" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('SPvm') @init('viewmodel.SettingPolicyViewModel')"  >
+	<tabs>
+		<tab label="Install-Time 安全政策制定" />
+	</tabs>
+	<tabpanels>
+		<tabpanel style="background-color: white; padding:20px;">
+			<vlayout>
+				<separator spacing="10px" />
+				<hlayout>
+					<vbox>
+						<hbox>
+							<label value="Access：" />
+							<combobox id="cmbAccess" selectedItem="@save(SPvm.installPolicy.access)" width="80px">
+								<comboitem label="Allow" value="allow" />
+								<comboitem label="Deny" value="deny" />
+							</combobox>
+							<separator spacing="10px" />
+							<label value="Application：" />
+							<combobox id="cmbApp" model="@load(SPvm.applications)"
+								selectedItem="@bind(SPvm.installPolicy.application)">
+								<template name="model">
+									<comboitem label="@load(each)" value="@load(each)" />
+								</template>
+							</combobox>
+							<separator spacing="10px" />
+							<label value="Permission：" />
+							<combobox id="cmbPermission"
+								model="@load(SPvm.permissions)" selectedItem="@bind(SPvm.installPolicy.permission)">
+								<template name="model">
+									<comboitem label="@load(each)" value="@load(each)" />
+								</template>
+							</combobox>
+						</hbox>
+						<separator spacing="10px" />
+						<hbox>
+							<!-- Start 此處可新增其他Conditions元件 -->
+							<label value="Condition：" />
+							<menubar autodrop="true">
+								<menu label="Conditions" width="150px">
+									<menupopup>
+										<menuitem label="min-version" checkmark="true"
+											autocheck="true"
+											onCheck="ConditionChecked(self.getLabel(),self.isChecked())" />
+										<menuseparator />
+										<!-- 
+										<menuitem label="permission-level" checkmark="true"
+											autocheck="true"
+											onCheck="ConditionChecked(self.getLabel(),self.isChecked())" />
+										 -->
+									</menupopup>
+								</menu>
+							</menubar>
+							<separator spacing="10px" />
+
+							<box id="hboxCondition1" orient="horizontal" visible="false">
+								<label value="min-version" />
+								<textbox width="100px" value="@save(SPvm.minVersion.value)" />
+							</box>
+							<!-- 
+							<box id="hboxCondition2" orient="horizontal" visible="false">
+								<label value="permission-level" />
+								<combobox width="180px" selectedItem="@save(SPvm.permissionLevel.value)">
+									<comboitem label="normal" value="normal" />
+									<comboitem label="dangerous" value="dangerous" />
+									<comboitem label="signature" value="signature" />
+									<comboitem label="signatureOrSystem" value="signatureOrSystem" />
+								</combobox>
+							</box>
+							 -->
+							<zscript><![CDATA[ 
+								    void ConditionChecked(String item,Boolean check){
+								    	switch(item){
+											case "min-version":
+												if(check){
+													hboxCondition1.setVisible(true);
+												}else{
+													hboxCondition1.setVisible(false);
+												}
+												break;
+												/*
+											case "permission-level":
+												if(check){
+													hboxCondition2.setVisible(true);
+												}else{
+													hboxCondition2.setVisible(false);
+												}
+												break;
+												*/
+										}          
+								    }     
+								]]></zscript>
+							<!-- End 此處可新增其他Conditions元件 -->
+						</hbox>
+					</vbox>
+					<separator spacing="10px" />
+					<button image="/img/green_+.png" width="50px" height="30px" onClick="@command('insertPolicy')" />
+				</hlayout>
+				<!-- install-time 清單 -->
+				<separator spacing="10px" />
+				<listbox model="@load(SPvm.installTimePolicies)" emptyMessage="No policies found."
+					mold="paging" pageSize="8">
+					<auxhead>
+						<auxheader colspan="6" iconSclass="icon-Posts">
+							Install-Time 安全政策清單
+						</auxheader>
+					</auxhead>
+					<listhead>
+						<listheader width="5%" align="center" />
+						<listheader label="Access" width="10%" align="center" />
+						<listheader label="Application" width="20%" align="center" />
+						<listheader label="Permission" width="35%" align="center" />
+						<listheader label="Other conditions" width="20%" align="center" />
+						<listheader label="DateTime" width="10%" align="center" />
+					</listhead>
+					<template name="model" var="policy">
+						<listitem>
+							<listcell>
+								<button image="/img/red-x.png" width="50px" height="30px"
+									onClick="@command('removePolicy',mStr=policy.id)" />
+							</listcell>
+							<listcell label="@load(policy.access)" />
+							<listcell label="@load(policy.application)" />
+							<listcell label="@load(policy.permission)" />
+							<listcell label="@load(policy.conditionStr)" />
+							<listcell label="@load(policy.createTime)" />
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</tabpanel>
+	</tabpanels>
+</tabbox>
