@@ -1,0 +1,37 @@
+<hlayout style="padding: 20px">
+	<hlayout>
+		<vlayout>
+			<panel title="安全政策制定" border="normal" style="padding: 5px;">
+				<panelchildren>
+					<vbox>
+						<label value="Install-Time 安全政策：" style="font-size:14px;font-weight:bold;" />
+						<label
+							value="1. 此功能為制定Install-Time安全政策，可透過提供的功能選單新增所需的Install-Time安全政策。" />
+						<label value="2. Install-Time安全政策可以透過SDroidAgent來實施。" />
+						<separator spacing="5px" />
+						<label value="Run-Time 安全政策：" style="font-size:14px;font-weight:bold;" />
+						<label value="1. 此功能為制定Run-Time安全政策，可透過提供的功能選單新增所需的Run-Time安全政策。" />
+						<label value="2. 本平台Run-Time安全政策分為Run-time policy、App policy。" />
+					</vbox>
+				</panelchildren>
+			</panel>
+			<panel title="標籤管理" border="normal" style="padding: 5px">
+				<panelchildren>
+					<vbox>
+						<label value="標籤：" style="font-size:14px;font-weight:bold;" />
+						<label value="此功能為將指定的檔案歸類於指定標籤之內。" />
+					</vbox>
+				</panelchildren>
+			</panel>
+		</vlayout>
+		<vlayout>
+			<panel title="政策比對機制" border="normal" style="padding: 5px">
+				<panelchildren>
+					<label value="此功能負責顯示Install-time安全政策比對的結果清單。" />
+				</panelchildren>
+			</panel>
+			<image src="./img/sdroid.png" style="border:none;" width="60%"
+				height="60%" />
+		</vlayout>
+	</hlayout>
+</hlayout>

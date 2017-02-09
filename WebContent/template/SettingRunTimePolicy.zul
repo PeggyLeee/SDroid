@@ -1,0 +1,145 @@
+
+<tabbox height="600px" style="padding: 20px" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('SRTPvm') @init('viewmodel.SettingRunTimePolicyViewModel')">
+	<tabs>
+		<tab label="Run-time Policy" />
+		<tab label="App Policy" />
+	</tabs>
+	<tabpanels>
+		<tabpanel style="background-color: white; padding:20px;">
+			<vlayout>
+				<hbox>
+					<!-- Run-time Policy 安全政策 -->
+					<label value="Access：" />
+					<combobox id="cmbAccess" width="80px"
+						selectedItem="@save(SRTPvm.runTimePolicy.access)">
+						<comboitem label="Allow" value="allow" />
+						<comboitem label="Deny" value="deny" />
+					</combobox>
+					<separator spacing="10px" />
+					<label value="Label：" />
+					<combobox id="cmbLabel" width="100px" model="@load(SRTPvm.dataLabels)"
+						selectedItem="@save(SRTPvm.label)">
+						<template name="model" var="dl">
+							<comboitem label="@load(dl.label)" value="@load(dl.labelId)" />
+						</template>
+					</combobox>				
+				</hbox>
+				<separator spacing="10px" />
+				<hbox>
+					<label value="Source Application：" />
+					<combobox id="cmbSourceApp"
+						model="@load(SRTPvm.applications)" selectedItem="@save(SRTPvm.sourceApplication)">
+						<template name="model" var="app">
+							<comboitem label="@load(app.appLabel)" />
+						</template>
+					</combobox>
+					<separator spacing="10px" />
+					<label value="Destination Application：" />
+					<combobox id="cmbDestApp" 
+						model="@load(SRTPvm.applications)" selectedItem="@save(SRTPvm.destinationApplication)">
+						<template name="model" var="app">
+							<comboitem label="@load(app.appLabel)" />
+						</template>
+					</combobox>
+					<separator spacing="10px" />
+					<button image="/img/green_+.png" width="50px" height="30px"
+						onClick="@command('insertPolicy',mStr='RunTimePolicy')" />	
+						</hbox>			
+				<!-- Run-time 清單 -->
+				<separator spacing="10px" />
+				<listbox id="lbRunTime" model="@load(SRTPvm.runTimePolicies)" emptyMessage="No policies found."
+					mold="paging" pageSize="8">
+					<auxhead>
+						<auxheader colspan="6" iconSclass="icon-Posts">
+							Run-time 安全政策清單
+						</auxheader>
+					</auxhead>
+					<listhead>
+						<listheader width="5%" align="center" />
+						<listheader label="Access" width="10%" align="center" />
+						<listheader label="Label" width="15%" align="center" />
+						<listheader label="Source Application" width="30%" align="center" />
+						<listheader label="Destination Application" width="30%" align="center" />
+						<listheader label="DateTime" width="10%" align="center" />
+					</listhead>
+					<template name="model" var="policy">
+						<listitem>
+							<listcell>
+								<button image="/img/red-x.png" width="50px" height="30px"
+									onClick="@command('removePolicy',mStr=policy.id)" />
+							</listcell>
+							<listcell label="@load(policy.access)" />
+							<listcell label="@load(policy.dataLabel)" />
+							<listcell label="@load(policy.sourceApplication)" />
+							<listcell label="@load(policy.destinationApplication)" />
+							<listcell label="@load(policy.createTime)" />
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</tabpanel>
+		<tabpanel style="background-color: white; padding:20px;">
+			<vlayout>
+				<hlayout>
+					<!-- App Policy 安全政策 -->
+					<label value="Access：" />
+					<combobox id="cmbAccess2" width="80px"
+						selectedItem="@save(SRTPvm.appPolicy.access)">
+						<comboitem label="Allow" value="allow" />
+						<comboitem label="Deny" value="deny" />
+					</combobox>
+					<separator spacing="10px" />
+					<label value="Label：" />
+					<combobox id="cmbLabel2" model="@load(SRTPvm.dataLabels)"
+						selectedItem="@save(SRTPvm.label)">
+						<template name="model" var="lb">
+							<comboitem label="@load(lb.label)" />
+						</template>
+					</combobox>
+					<separator spacing="10px" />
+					<label value="Application：" />
+					<combobox id="cmbApp" model="@load(SRTPvm.applications)"
+						selectedItem="@save(SRTPvm.sourceApplication)">
+						<template name="model" var="app">
+							<comboitem label="@load(app.appLabel)" />
+						</template>
+					</combobox>
+					<separator spacing="10px" />
+					<button image="/img/green_+.png" width="50px" height="30px"
+						onClick="@command('insertPolicy',mStr='AppPolicy')" />
+				</hlayout>
+				<!--App Policy 清單 -->
+				<separator spacing="10px" />
+				<listbox model="@load(SRTPvm.appPolicies)" emptyMessage="No policies found."
+					mold="paging" pageSize="8">
+					<auxhead>
+						<auxheader colspan="5" iconSclass="icon-Posts">
+							App Policy 安全政策清單
+						</auxheader>
+					</auxhead>
+					<listhead>
+						<listheader width="5%" align="center" />
+						<listheader label="Access" width="10%" align="center" />
+						<listheader label="Label" width="20%" align="center" />
+						<listheader label="Application" width="30%" align="center" />
+						<listheader label="DateTime" width="20%" align="center" />
+					</listhead>
+					<template name="model" var="policy">
+						<listitem>
+							<listcell>
+								<button image="/img/red-x.png" width="50px" height="30px"
+									onClick="@command('removePolicy',mStr=policy.id)" />
+							</listcell>
+							<listcell label="@load(policy.access)" />
+							<listcell label="@load(policy.dataLabel)" />
+							<listcell label="@load(policy.application)" />
+							<listcell label="@load(policy.createTime)" />
+						</listitem>
+					</template>
+				</listbox>
+
+			</vlayout>
+		</tabpanel>
+	</tabpanels>
+</tabbox>

@@ -1,0 +1,62 @@
+<?page title="SDroid - Security Policies Platform"?>
+<?link rel="stylesheet" type="text/css" href="/css/index.css.dsp" ?>
+<?link rel="stylesheet" type="text/css" href="/css/sidebar.css.dsp" ?>
+<?link rel="stylesheet" type="text/css" href="/css/content-header.css.dsp" ?>
+<?link id="theme" rel="stylesheet" type="text/css" href="/css/grey.css.dsp" ?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" id="win"
+		viewModel="@id('vm') @init('viewmodel.IndexViewModel')"
+		contentStyle="background:#336666" xmlns:n="native">
+		<style src="/css/style.css" />
+		
+		<popup id="btntip" sclass="btn-tip" style="margin-top: 10px">
+			<label id="msg" value="Manage Files"></label>
+			<attribute name="onOpen">
+				if (event.isOpen()) {
+				msg.setValue(event.getReference().getAttribute("title").toString());
+				}
+			</attribute>
+		</popup>
+		
+		<div sclass="header">
+			<n:h1>
+				<a>SDroid</a>
+			</n:h1>
+		</div>
+
+		<!-- 此處可以新增左方選單 -->
+		<navbar orient="vertical" sclass="sidebar">
+			<navitem iconSclass="icon icon-white icon-home" label="SDroid平台簡介"
+				selected="true" onClick="@command('goToIndexPage', hStr=self.label)" />
+			<navitem iconSclass="icon icon-white icon-pencil" label="Install-Time安全政策制定"
+				onClick="@command('goToSettingInstallTimePolicy', hStr=self.label)" />
+			<navitem iconSclass="icon icon-white icon-pencil" label="Run-Time安全政策制定"
+				onClick="@command('goToSettingRunTimePolicy', hStr=self.label)" />
+			<navitem iconSclass="icon icon-white icon-file" label="標籤管理"
+				onClick="@command('goToSettingLabel', hStr=self.label)" />				
+			<navitem iconSclass="icon icon-white icon-signal" label="政策比對機制"
+				onClick="@command('goToPolicyMatched', hStr=self.label)" />
+			<navitem iconSclass="icon icon-white icon-signal" label="已註冊行動裝置"
+				onClick="@command('goToRegisteredDevice', hStr=self.label)" />
+		</navbar>
+	
+
+		<div sclass="content">
+			<div sclass="content-header">
+				<n:h1>
+					<label id="conHeader" style="color: #555555;font-size: 28px;">SDroid平台</label>
+				</n:h1>
+			</div>
+			<div sclass="breadcrumb">
+				<a href="#" tooltip="btntip,after_center" iconSclass="icon-home">首頁	</a>
+				<a href="#"><label id="crumbHeader">SDroid平台簡介</label></a>
+			</div>
+
+			<include id="pageContent" src="template/IndexPage.zul" />
+		</div>
+		<script src="js/excanvas.min.js" type="" if="${zk.ie lt 9}"></script>
+		<script src="js/jquery.flot.min.js"></script>
+		<script src="js/jquery.peity.min.js"></script>
+
+	</window>
+</zk>

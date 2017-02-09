@@ -1,0 +1,107 @@
+<tabbox height="600px" style="padding:20px" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('SDLvm') @init('viewmodel.SettingDataLabelViewModel')">
+	<tabs>
+		<tab label="標籤資料管理" />
+		<tab label="標籤名稱管理" />
+	</tabs>
+	<tabpanels>
+		<tabpanel style="background-color:white; padding:20px;">
+			<separator spacing="10px" />
+			<hbox>
+				<label value="選擇標籤（Label）：" />
+				<combobox id="cmbLabel" model="@load(SDLvm.labels)"
+					selectedItem="@save(SDLvm.label)">
+					<template name="model" var="lb">
+						<comboitem label="@load(lb.label)" value="@load(lb.labelId)" />
+					</template>
+				</combobox>
+				<separator spacing="10px" />
+				<label value="選擇資料：" />
+				<fileupload label="Upload File">
+				   <attribute name="onUpload">
+				   org.zkoss.util.media.Media media = event.getMedia();
+				   fileName.setValue(media.getName());
+				   </attribute>
+				</fileupload>
+				<label id="fileName" />
+				<separator spacing="10px" />
+				<button image="/img/green_+.png" width="50px" height="30px"
+					onClick="@command('insertDataLabel')" />
+			</hbox>
+			<!-- 標籤資料 清單 -->
+			<separator spacing="10px" />
+			<listbox model="@load(SDLvm.datalabels)" emptyMessage="No datalabel found."
+				mold="paging" pageSize="10">
+				<auxhead>
+					<auxheader colspan="4" iconSclass="icon-Posts">
+						標籤資料清單
+					</auxheader>
+				</auxhead>
+				<listhead>
+					<listheader width="5%" align="center" />
+					<listheader label="Label" width="40%"
+						align="center" />
+					<listheader label="File name" width="45%"
+						align="center" />
+					<listheader label="DateTime" width="10%"
+						align="center" />
+				</listhead>
+				<template name="model" var="label">
+					<listitem>
+						<listcell>
+							<button image="/img/red-x.png" width="50px" height="30px"
+								onClick="@command('removeDataLabel',mStr=label.id)" />
+						</listcell>
+						<listcell label="@load(label.label)" />
+						<listcell label="@load(label.fileName)" />
+						<listcell
+							label="@load(label.createTime) @converter('formatedDate', format='yyyy-MM-dd')" />
+					</listitem>
+				</template>
+			</listbox>			
+			
+		</tabpanel>
+		<tabpanel style="background-color:white; padding:20px;">
+			<separator spacing="10px" />
+			<hbox>
+				<label value="新增標籤（Label）：" />
+				<textbox id="txtLabel" width="150px" />
+				<separator spacing="10px" />
+				<button image="/img/green_+.png" width="50px" height="30px"
+					onClick="@command('insertLabel',mStr=txtLabel.value)" />
+			</hbox>
+			<!-- 標籤 清單 -->
+			<separator spacing="10px" />
+			<listbox model="@load(SDLvm.labels)" emptyMessage="No label found."
+				mold="paging" pageSize="10">
+				<auxhead>
+					<auxheader colspan="4" iconSclass="icon-Posts">
+						標籤（Label）清單
+					</auxheader>
+				</auxhead>
+				<listhead>
+					<listheader width="5%" align="center" />
+					<listheader label="Id" width="10%"
+						align="center" />
+					<listheader label="Label" width="35%"
+						align="center" />
+					<listheader label="DateTime" width="10%"
+						align="center" />
+				</listhead>
+				<template name="model" var="label">
+					<listitem>
+						<listcell>
+							<button image="/img/red-x.png" width="50px" height="30px"
+								onClick="@command('removeLabel',mStr=label.id)" />
+						</listcell>
+						<listcell label="@load(label.labelId)" />
+						<listcell label="@load(label.label)" />
+						<listcell
+							label="@load(label.createTime) @converter('formatedDate', format='yyyy-MM-dd')" />
+					</listitem>
+				</template>
+			</listbox>
+		</tabpanel>
+	</tabpanels>
+</tabbox>
+
